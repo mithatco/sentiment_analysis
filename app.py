@@ -1,15 +1,15 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from transformers import pipeline
 import os
 
-# Set the cache directory
-os.environ['TRANSFORMERS_CACHE'] = '/tmp/transformers_cache/'
-
 app = Flask(__name__)
+CORS(app)
 
 # Load the sentiment analysis pipeline
-model_name = "distilbert-base-uncased-finetuned-sst-2-english"
-sentiment_analyzer = pipeline("sentiment-analysis", model=model_name)
+# model_name = "distilbert-base-uncased-finetuned-sst-2-english"
+model_name = "cardiffnlp/twitter-roberta-base-sentiment-latest"
+sentiment_analyzer = pipeline("sentiment-analysis", model = model_name)
 
 @app.route('/')
 def home():
@@ -23,9 +23,10 @@ def analyze():
         if not text:
             return jsonify({"error": "No text provided"}), 400
         result = sentiment_analyzer(text)
-        return jsonify(result)
+        response = jsonify(result)
+        return response
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(port=5000)

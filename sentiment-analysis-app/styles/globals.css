@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 173, 216, 230; /* Light blue, akin to light sky blue */
+  --background-end-rgb: 255, 255, 255;  /* White */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 25, 25, 112; /* Midnight blue for darker theme */
+    --background-end-rgb: 10, 10, 10;    /* Near black for darker theme */
+  }
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(to bottom, rgb(173, 216, 230) 0%, rgb(255, 255, 255) 100%);
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(var(--foreground-rgb));
+}
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
