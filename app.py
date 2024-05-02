@@ -6,7 +6,6 @@ import os
 os.environ['TRANSFORMERS_CACHE'] = '/tmp/transformers_cache/'
 
 app = Flask(__name__)
-# CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 # Load the sentiment analysis pipeline
 model_name = "distilbert-base-uncased-finetuned-sst-2-english"
@@ -18,13 +17,15 @@ def home():
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-    print(request.json)
-    data = request.json
-    text = data['text']
-    result = sentiment_analyzer(text)
-    response = jsonify(result)
-    # response.headers.add('Access-Control-Allow-Origin', '*')
-    return response
+    try:
+        data = request.json
+        text = data.get('text')
+        if not text:
+            return jsonify({"error": "No text provided"}), 400
+        result = sentiment_analyzer(text)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=False)
