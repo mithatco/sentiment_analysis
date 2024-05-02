@@ -6,7 +6,7 @@ app = Flask(__name__)
 # CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 # Load the sentiment analysis pipeline
-# sentiment_analyzer = pipeline("sentiment-analysis")
+sentiment_analyzer = pipeline("sentiment-analysis")
 
 @app.route('/')
 def home():
