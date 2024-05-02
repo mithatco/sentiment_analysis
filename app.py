@@ -1,11 +1,11 @@
 from flask import Flask, request, jsonify
 from transformers import pipeline
-from flask_cors import CORS
+# from flask_cors import CORS
 
 print()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}}) 
+# CORS(app, resources={r"/*": {"origins": "*"}}) 
 
 # Load the sentiment analysis pipeline
 sentiment_analyzer = pipeline("sentiment-analysis")
