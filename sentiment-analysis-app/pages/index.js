@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
-
+import React, { useState } from 'react';
 
 export default function Home() {
   const [text, setText] = useState('');
@@ -42,22 +41,47 @@ export default function Home() {
   };
 
   return (
-    <div style={{ width: '80%', maxWidth: '600px', textAlign: 'center', margin: 'auto', marginTop: '50px' }}>
+    <div style={{ width: '100%', textAlign: 'center', margin: 'auto', marginTop: '50px' }}>
       <h1 style={{ fontSize: '48px', fontWeight: 'bold', marginBottom: '20px', color: '#123456' }}>Sentiment Analysis</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ width: '100%' }}>
         <textarea 
           value={text} 
           onChange={(e) => setText(e.target.value)} 
-          style={{ width: '100%', height: '100px', margin: '10px 0', padding: '15px', fontSize: '16px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', border: '1px solid #ccc', borderRadius: '8px' }}
+          style={{ 
+            width: '100%', // Ensures it fills the form
+            height: '150px', // Increased height for better visibility
+            margin: '10px 0', 
+            padding: '15px',
+            fontSize: '16px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            border: '1px solid #ccc',
+            borderRadius: '8px'
+          }} 
         />
         <button 
           type="submit" 
-          style={{ width: '100%', padding: '15px 20px', fontSize: '18px', backgroundColor: '#4CAF50', color: 'white', border: 'none', borderRadius: '8px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', cursor: 'pointer' }}
+          style={{ 
+            width: '100%', 
+            padding: '15px 20px', 
+            fontSize: '18px',
+            backgroundColor: '#4CAF50',
+            color: 'white',
+            border: 'none',
+            borderRadius: '8px',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+            cursor: 'pointer'
+          }}
         >
           Analyze
         </button>
       </form>
-      {isLoading ? <p style={{ marginTop: '20px' }}>{loadingMessage}</p> : result && <p style={{ marginTop: '20px' }}>{result}</p>}
+      {isLoading ? (
+        <p style={{ marginTop: '20px' }}>{loadingMessage}</p>
+      ) : result && (
+        <div style={{ marginTop: '20px', padding: '20px', backgroundColor: '#f0f8ff', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', borderRadius: '10px', border: '1px solid #ccc' }}>
+          <p style={{ fontSize: '16px', color: '#333' }}>{result}</p>
+        </div>
+      )}
     </div>
   );
 }

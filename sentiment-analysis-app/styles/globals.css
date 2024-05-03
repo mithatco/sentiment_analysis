@@ -27,6 +27,11 @@ body {
   color: rgb(var(--foreground-rgb));
 }
 
+#__next {
+  width: 60%;
+  margin-left: auto;  /* Centers the content horizontally */
+  margin-right: auto; /* Centers the content horizontally */
+}
 
 @layer utilities {
   .text-balance {
