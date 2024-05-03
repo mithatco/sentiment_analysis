@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 export default function Home() {
   const [text, setText] = useState('');
-  const [result, setResult] = useState(null); // Store the result as an object or array
+  const [result, setResult] = useState(null); 
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
 
@@ -17,13 +17,16 @@ export default function Home() {
     "Applying sentiment filters..."
   ];
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
+    // Randomly pick a loading message
     const randomMessage = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
     setLoadingMessage(randomMessage);
-    setIsLoading(true);
+    setIsLoading(true); // Set loading state to true
 
     try {
+      // Perform API request to Hugging Face's sentiment analysis model
       const response = await fetch(
         "https://api-inference.huggingface.co/models/cardiffnlp/twitter-roberta-base-sentiment-latest",
         {
@@ -35,24 +38,29 @@ export default function Home() {
           body: JSON.stringify({ inputs: text })
         }
       );
-      const data = await response.json();
+      const data = await response.json(); // Parse the JSON response
 
-      // Assuming the structure is as described before
+      // Check if data is in the expected format and not empty
       if (data && Array.isArray(data) && data.length > 0 && Array.isArray(data[0]) && data[0].length > 0) {
+        // Sort sentiment results by score in descending order
         const sortedData = data[0].sort((a, b) => b.score - a.score);
         const mainSentiment = sortedData[0];
         const subSentiment = sortedData.slice(1);
+        // Set result with the main sentiment and other details
         setResult({
           main: `Main Sentiment: ${mainSentiment.label} with confidence ${mainSentiment.score.toFixed(2)}`,
           details: subSentiment.map(item => `${item.label} confidence: ${item.score.toFixed(2)}`)
         });
       } else {
-        setResult({ error: 'No sentiment data returned or data format is incorrect. Please try again with different text.' });
+        // Handle case where no valid data is returned
+        setResult({ error: 'Text is too long or contains wrong formatting. Please try again with different text.' });
       }
     } catch (error) {
+      // Handle errors during the fetch operation
       console.error('Error:', error);
       setResult({ error: 'Failed to analyze sentiment due to an error.' });
     } finally {
+      // Reset loading state
       setIsLoading(false);
     }
   };
